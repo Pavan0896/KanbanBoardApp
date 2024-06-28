@@ -8,6 +8,7 @@ const todoSchema = mongoose.Schema({
     default: ["to-do"],
   },
   user_id: { type: String, require: true },
+  userName: { type: String, require: true },
 });
 
 const TodoModel = mongoose.model("todo", todoSchema);
