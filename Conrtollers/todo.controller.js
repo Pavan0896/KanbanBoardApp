@@ -16,28 +16,14 @@ const patchTodos = async (req, res) => {
   const id = req.params.id;
 
   try {
-    if (role == "admin") {
+    if (role=="admin" ||role == "user") {
       await TodoModel.findByIdAndUpdate(id, { $set: { status: status } });
       res.status(200).send({ message: "Updated Successfully." });
-    } else if (role == "user") {
-      const updateResult = await TodoModel.updateOne(
-        { _id: id, user_id: user_id },
-        { $set: { status: status } }
-      );
-
-      if (updateResult.nModified === 0) {
-        res.status(403).send({ message: "Not Authorized to update." });
-      } else {
-        res.status(200).send({ message: "Updated Successfully." });
-      }
     } else {
       res.status(403).send({ message: "Not Authorized to update." });
     }
   } catch (error) {
     console.error("Error updating todo:", error);
-    if (!res.headersSent) {
-      res.status(500).send({ message: "Internal Server Error." });
-    }
   }
 };
 
